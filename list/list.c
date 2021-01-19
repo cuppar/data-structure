@@ -7,9 +7,11 @@ void ShowList(List l);
 int ListEmpty(List l);
 void ClearList(List *l);
 bool InsertItem(List *l, int index, DataType e);
+bool DeleteItem(List *l, int index, DataType *e);
 bool GetItem(List l, int index, DataType *e);
 int LocateItem(List l, DataType e);
 void UnionList(List *la, List lb);
+void DestoryList(List *l);
 
 // init the List with length 0 and void* head pointer
 void InitList(List *l)
@@ -42,25 +44,41 @@ int ListEmpty(List l)
   return !(l.length > 0);
 }
 
-// void ClearList(List *l);
+void ClearList(List *l)
+{
+  l->length = 0;
+}
+
+void DestoryList(List *l)
+{
+  ClearList(l);
+  free(l->items);
+  l->items = NULL;
+}
 
 bool InsertItem(List *l, int index, DataType e)
 {
   if (l->length >= l->max_len)
   {
     int new_max_len = l->max_len * 2;
-    List new_l;
+    auto List new_l;
     new_l.length = l->length;
     new_l.max_len = new_max_len;
-    new_l.items = malloc(new_max_len * sizeof(DataType));
+    new_l.items = (DataType *)malloc(new_max_len * sizeof(DataType));
+    if (new_l.items == NULL)
+    {
+      printf("Alloc memory fail!");
+      return false;
+    }
     for (int i = 0; i < l->length; i++)
     {
       new_l.items[i] = l->items[i];
     }
-    free(l->items);
+    DestoryList(l);
     *l = new_l;
     printf("Dynamic grown List to max length %d\n", l->max_len);
   }
+
   if (index > l->length || index < 0)
     return false;
   for (int i = l->length - 1; i >= index; i--)
@@ -71,6 +89,54 @@ bool InsertItem(List *l, int index, DataType e)
   l->length++;
   return true;
 }
-// bool GetItem(List l, int index, DataType *e);
-// int LocateItem(List l, DataType e);
-// void UnionList(List *la, List lb);
+
+bool DeleteItem(List *l, int index, DataType *e)
+{
+  bool success = false;
+  if (index < 0 || index >= l->length)
+  {
+    return success;
+  }
+
+  *e = l->items[index];
+  for (int i = index; i < l->length - 1; i++)
+  {
+    l->items[i] = l->items[i + 1];
+  }
+  l->length--;
+  success = true;
+  return success;
+}
+
+bool GetItem(List l, int index, DataType *e)
+{
+  if (index < 0 || index >= l.length)
+    return false;
+  *e = l.items[index];
+  return true;
+}
+
+int LocateItem(List l, DataType e)
+{
+  int pos = -1;
+  for (int i = 0; i < l.length; i++)
+  {
+    if (l.items[i] == e)
+    {
+      pos = i;
+      break;
+    }
+  }
+  return pos;
+}
+
+void UnionList(List *la, List lb)
+{
+  for (int i = 0; i < lb.length; i++)
+  {
+    if (LocateItem(*la, lb.items[i]) < 0)
+    {
+      InsertItem(la, la->length, lb.items[i]);
+    }
+  }
+}
