@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
     }
     ShowList(l);
   }
-  DataType e;
+  ElemType e;
   if (GetItem(l, 5, &e))
   {
     printf("Get 5 item: %d\n", e);
@@ -48,7 +48,7 @@ int main(int argc, char const *argv[])
   printf("after union:L2:\n");
   ShowList(l2);
 
-  DataType delItem1, delItem2;
+  ElemType delItem1, delItem2;
   printf("Delete last item ");
   if (DeleteItem(&l, l.length - 1, &delItem1))
   {

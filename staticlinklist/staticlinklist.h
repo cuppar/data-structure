@@ -2,12 +2,7 @@
 #define STATICLINKLIST_H_
 
 #define MAX_LEN 1000
-#define OK 1
-#define ERROR 0
-
-typedef int Status;
-
-typedef int ElemType;
+#include "../utils/utils.h"
 
 typedef struct Node
 {

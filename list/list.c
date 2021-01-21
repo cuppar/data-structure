@@ -6,17 +6,17 @@ void InitList(List *l);
 void ShowList(List l);
 int ListEmpty(List l);
 void ClearList(List *l);
-bool InsertItem(List *l, int index, DataType e);
-bool DeleteItem(List *l, int index, DataType *e);
-bool GetItem(List l, int index, DataType *e);
-int LocateItem(List l, DataType e);
+bool InsertItem(List *l, int index, ElemType e);
+bool DeleteItem(List *l, int index, ElemType *e);
+bool GetItem(List l, int index, ElemType *e);
+int LocateItem(List l, ElemType e);
 void UnionList(List *la, List lb);
 void DestoryList(List *l);
 
 // init the List with length 0 and void* head pointer
 void InitList(List *l)
 {
-  l->items = malloc(LIST_LEN * sizeof(DataType));
+  l->items = malloc(LIST_LEN * sizeof(ElemType));
   l->length = 0;
   l->max_len = LIST_LEN;
 }
@@ -56,7 +56,7 @@ void DestoryList(List *l)
   l->items = NULL;
 }
 
-bool InsertItem(List *l, int index, DataType e)
+bool InsertItem(List *l, int index, ElemType e)
 {
   if (l->length >= l->max_len)
   {
@@ -64,7 +64,7 @@ bool InsertItem(List *l, int index, DataType e)
     auto List new_l;
     new_l.length = l->length;
     new_l.max_len = new_max_len;
-    new_l.items = (DataType *)malloc(new_max_len * sizeof(DataType));
+    new_l.items = (ElemType *)malloc(new_max_len * sizeof(ElemType));
     if (new_l.items == NULL)
     {
       printf("Alloc memory fail!");
@@ -90,7 +90,7 @@ bool InsertItem(List *l, int index, DataType e)
   return true;
 }
 
-bool DeleteItem(List *l, int index, DataType *e)
+bool DeleteItem(List *l, int index, ElemType *e)
 {
   bool success = false;
   if (index < 0 || index >= l->length)
@@ -108,7 +108,7 @@ bool DeleteItem(List *l, int index, DataType *e)
   return success;
 }
 
-bool GetItem(List l, int index, DataType *e)
+bool GetItem(List l, int index, ElemType *e)
 {
   if (index < 0 || index >= l.length)
     return false;
@@ -116,7 +116,7 @@ bool GetItem(List l, int index, DataType *e)
   return true;
 }
 
-int LocateItem(List l, DataType e)
+int LocateItem(List l, ElemType e)
 {
   int pos = -1;
   for (int i = 0; i < l.length; i++)
