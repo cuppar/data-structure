@@ -13,7 +13,13 @@ typedef struct LinkStack
 {
   LinkStackPtr top;
   int count;
-};
+} LinkStack;
+
+void InitLinkStack(LinkStack *S);
+void ShowLinkStack(LinkStack S);
+int LinkStackLength(LinkStack S);
+Status LinkStackPush(LinkStack *S, ElemType e);
+Status LinkStackPop(LinkStack *S, ElemType *e);
 
 
 #endif // LINKSTACK_H_
